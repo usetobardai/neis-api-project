@@ -28,5 +28,8 @@ school_name = input('학교 이름을 입력하세요: ')
 school_data = search_school(school_name)
 len_data = len(school_data)
 
-for i in range(len_data):
-    print(school_data[i]['SCHUL_NM'])
+if not len_data < 1:
+    for i in range(len_data):
+        print(f'학교명: {school_data[i]['SCHUL_NM']} 학교종류: {school_data[i]['SCHUL_KND_SC_NM']}')
+else:
+    print("데이터가 없습니다")
