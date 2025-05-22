@@ -1,0 +1,8 @@
+{
+  "name": "school-search-app",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "react-scripts start"
+  },
+  "proxy": "http://backend:5000"
+}
