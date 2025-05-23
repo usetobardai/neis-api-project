@@ -1,13 +1,31 @@
-FROM node:18-alpine
-WORKDIR /
+# Stage 1: Build the React application
+FROM node:18-alpine AS builder
+WORKDIR /app
 
-# 1) 의존성 설치를 위한 package.json 복사
-COPY package.json ./
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json ./
+
+# Install dependencies
 RUN npm install
 
-# 2) 앱 소스 복사 (public, src 디렉토리 포함)
-COPY public ./public
-COPY src ./src
+# Copy the rest of the application source code
+COPY . .
 
-# 3) 개발용 dev server 실행
-CMD ["npm", "start"]
+# Build the application
+RUN npm run build
+
+# Stage 2: Serve the application using Nginx
+FROM nginx:stable-alpine
+WORKDIR /usr/share/nginx/html
+
+# Remove default Nginx static assets
+RUN rm -rf ./*
+
+# Copy static assets from the builder stage
+COPY --from=builder /app/build .
+
+# Expose port 80
+EXPOSE 80
+
+# Nginx will start automatically, but an explicit CMD can be useful for clarity or customization
+CMD ["nginx", "-g", "daemon off;"]
