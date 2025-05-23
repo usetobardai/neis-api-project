@@ -1,5 +1,8 @@
 {
-  "dependencies": {
-    "react-scripts": "^5.0.1"
-  }
+"dependencies": {
+  "react": "...",
+  "react-dom": "...",
+  "react-scripts": "5.0.1"
+}
+
 }
